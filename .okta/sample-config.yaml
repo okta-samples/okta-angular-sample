@@ -8,5 +8,7 @@ directions: |+2
   
   Build this example using NPM:
       npm install
+
   And run with:
+      source .okta.env
       npm start
