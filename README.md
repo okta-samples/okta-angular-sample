@@ -49,7 +49,7 @@ ng serve
 >
 > It's a [known issue](https://github.com/angular/angular-cli/issues/5075) on windows due to one of the dependencies we use. To resolve the issue, search for browserslist and browserslist.cmd files in your node_modules. Delete both the files and start the app server again.
 
-Now navigate to http://localhost:8080 in your browser.
+Now navigate to http://localhost:4200 in your browser.
 
 If you see a home page that prompts you to login, then things are working!  Clicking the **Log in** button will render a custom login page component that uses the Okta Sign-In Widget to perform authentication.
 
