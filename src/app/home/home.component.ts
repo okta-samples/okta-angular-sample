@@ -36,8 +36,16 @@ export class HomeComponent implements OnInit {
       },
       {
         label: 'Java/Spring MVC Resource Server Example',
-        url: 'https://github.com/okta/samples-java-spring-mvc/tree/master/resource-server',
+        url: 'https://github.com/okta/samples-java-spring/tree/master/resource-server',
       },
+      {
+        label: 'ASP.NET Resource Server Example',
+        url: 'https://github.com/okta/samples-aspnet/tree/master/resource-server'
+      },
+      {
+        label: 'ASP.NET Core Resource Server Example',
+        url: 'https://github.com/okta/samples-aspnet/tree/master/resource-server'
+      }
     ];
     this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
   }
