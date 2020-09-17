@@ -7,8 +7,9 @@ directions: |+2
   Okta configuration written to: .okta.env
   
   Build this example using NPM:
+
       npm install
 
   And run with:
-      source .okta.env
+
       npm start
