@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.signIn.showSignInToGetTokens({
       el: '#sign-in-widget',
       scopes: sampleConfig.oidc.scopes
