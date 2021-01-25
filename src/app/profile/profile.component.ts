@@ -24,11 +24,9 @@ interface Claim {
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  idToken;
   claims: Array<Claim>;
 
   constructor(public oktaAuth: OktaAuthService) {
-
   }
 
   async ngOnInit() {
