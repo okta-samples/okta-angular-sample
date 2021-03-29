@@ -20,7 +20,7 @@
     "@angular/platform-browser-dynamic": "~11.1.0",
     "@angular/router": "~11.1.0",
     "@okta/okta-angular": "^3.0.1",
-    "@okta/okta-signin-widget": "^5.4.4",
+    "@okta/okta-signin-widget": "^5.5.0",
     "colors": "^1.4.0",
     "rxjs": "~6.6.6",
     "semantic-ui-css": "^2.4.1",
