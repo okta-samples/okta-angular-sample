@@ -35,7 +35,7 @@
     "@angular/language-service": "~11.2.13",
     "@types/node": "^15.3.0",
     "codelyzer": "^6.0.2",
-    "dotenv": "^9.0.2",
+    "dotenv": "^10.0.0",
     "text-encoding": "^0.7.0",
     "ts-node": "~9.1.1",
     "tslint": "~6.1.3",
