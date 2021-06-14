@@ -25,8 +25,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/semantic-ui-css/semantic.min.css",
-              "node_modules/@okta/okta-signin-widget/dist/css/okta-sign-in.min.css"
+              "node_modules/semantic-ui-css/semantic.min.css"
             ],
             "scripts": []
           },
@@ -130,8 +129,7 @@
   "defaultProject": "custom-login",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "app",
-      "styleext": "css"
+      "prefix": "app"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
