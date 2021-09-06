@@ -18,7 +18,7 @@
     "@angular/forms": "~12.2.3",
     "@angular/platform-browser": "~12.2.3",
     "@angular/platform-browser-dynamic": "~12.2.3",
-    "@angular/router": "~12.2.3",
+    "@angular/router": "~12.2.4",
     "@okta/okta-angular": "^3.2.2",
     "@okta/okta-signin-widget": "^5.10.0",
     "colors": "^1.4.0",
