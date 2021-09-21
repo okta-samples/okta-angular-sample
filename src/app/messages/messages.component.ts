@@ -11,10 +11,10 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { OktaAuthService } from '@okta/okta-angular';
 import { HttpClient } from '@angular/common/http';
 
 import sampleConfig from '../app.config';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 interface Message {
   date: string;
@@ -30,12 +30,12 @@ export class MessagesComponent implements OnInit {
   failed: Boolean;
   messages: Array<Message> [];
 
-  constructor(public oktaAuth: OktaAuthService, private http: HttpClient) {
+  constructor(public oktaAuth: OktaAuth, private http: HttpClient) {
     this.messages = [];
   }
 
   async ngOnInit() {
-    const accessToken = await this.oktaAuth.getAccessToken();
+    const accessToken = this.oktaAuth.getAccessToken();
     this.http.get(sampleConfig.resourceServer.messagesUrl, {
       headers: {
         Authorization: 'Bearer ' + accessToken,

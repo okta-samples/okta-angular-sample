@@ -11,9 +11,9 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { OktaAuthService } from '@okta/okta-angular';
 import * as OktaSignIn from '@okta/okta-signin-widget';
 import sampleConfig from '../app.config';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 const DEFAULT_ORIGINAL_URI = window.location.origin;
 
@@ -25,7 +25,7 @@ const DEFAULT_ORIGINAL_URI = window.location.origin;
 export class LoginComponent implements OnInit {
   signIn: any;
 
-  constructor(public oktaAuth: OktaAuthService) {
+  constructor(public oktaAuth: OktaAuth) {
     this.signIn = new OktaSignIn({
       /**
        * Note: when using the Sign-In Widget for an OIDC flow, it still
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
       this.signIn.remove();
 
       // In this flow the redirect to Okta occurs in a hidden iframe
-      this.oktaAuth.handleLoginRedirect(tokens);
+      this.oktaAuth.signInWithRedirect(tokens);
     }).catch(err => {
       // Typically due to misconfiguration
       throw err;

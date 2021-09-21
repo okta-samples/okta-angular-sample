@@ -11,7 +11,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { OktaAuthService } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 interface ResourceServerExample {
   label: string;
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
   resourceServerExamples: Array<ResourceServerExample>;
   userName: string;
 
-  constructor(public oktaAuth: OktaAuthService) {
+  constructor(public oktaAuth: OktaAuth) {
     this.resourceServerExamples = [
       {
         label: 'Node/Express Resource Server Example',
@@ -43,7 +43,6 @@ export class HomeComponent implements OnInit {
         url: 'https://github.com/okta/samples-aspnet/tree/master/resource-server'
       }
     ];
-    this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
   }
 
   async ngOnInit() {

@@ -11,7 +11,7 @@
  */
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule, Router } from '@angular/router';
 import {
@@ -20,16 +20,17 @@ import {
   OktaAuthModule,
   OktaCallbackComponent,
 } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 import sampleConfig from './app.config';
 
-const oktaConfig = Object.assign({
-  onAuthRequired: (oktaAuth, injector) => {
-    const router = injector.get(Router);
-    // Redirect the user to your custom login page
-    router.navigate(['/login']);
-  }
-}, sampleConfig.oidc);
+export function onNeedsAuthGuard(oktaAuth: OktaAuth, injector: Injector) {
+  const router = injector.get(Router);
+  // Redirect the user to your custom login page
+  router.navigate(['/login']);
+}
+
+const oktaAuth = new OktaAuth(sampleConfig.oidc);
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -54,11 +55,17 @@ const appRoutes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [ OktaAuthGuard ],
+    data: {
+      onAuthRequired: onNeedsAuthGuard
+    }
   },
   {
     path: 'messages',
     component: MessagesComponent,
     canActivate: [ OktaAuthGuard ],
+    data: {
+      onAuthRequired: onNeedsAuthGuard
+    }
   },
 ];
 
@@ -77,7 +84,7 @@ const appRoutes: Routes = [
     OktaAuthModule,
   ],
   providers: [
-    { provide: OKTA_CONFIG, useValue: oktaConfig },
+    { provide: OKTA_CONFIG, useValue: { oktaAuth } },
   ],
   bootstrap: [AppComponent],
 })

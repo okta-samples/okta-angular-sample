@@ -19,7 +19,7 @@
   <tbody>
     <tr *ngFor="let claim of claims">
       <td>{{claim.claim}}</td>
-      <td id="claim-{{claim.claim}}">{{claim.value}}</td>
+      <td id="claim-{{claim.claim}}">{{claim.value.toString()}}</td>
     </tr>
   </tbody>
 </table>
