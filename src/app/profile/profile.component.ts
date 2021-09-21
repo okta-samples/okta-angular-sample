@@ -24,14 +24,14 @@ interface Claim {
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  claims: { claim: string; value: unknown }[];
+  claims: { name: string; value: unknown }[];
 
   constructor(public oktaAuth: OktaAuth) {
   }
 
   async ngOnInit() {
     const idToken = await this.oktaAuth.tokenManager.get('idToken');
-    this.claims = Object.entries(idToken.claims).map(entry => ({ claim: entry[0], value: entry[1] }));
+    this.claims = Object.entries(idToken.claims).map(entry => ({ name: entry[0], value: entry[1] }));
   }
 
 }
