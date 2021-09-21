@@ -24,7 +24,7 @@ import { OktaAuth } from '@okta/okta-auth-js';
 
 import sampleConfig from './app.config';
 
-export function onNeedsAuthGuard(oktaAuth: OktaAuth, injector: Injector) {
+export function onNeedsAuthGuard(_, injector: Injector) {
   const router = injector.get(Router);
   // Redirect the user to your custom login page
   router.navigate(['/login']);
