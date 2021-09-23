@@ -20,22 +20,24 @@ import {
   OktaAuthModule,
   OktaCallbackComponent,
 } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { MessagesComponent } from './messages/messages.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import sampleConfig from './app.config';
 
 const oktaConfig = Object.assign({
-  onAuthRequired: (oktaAuth, injector) => {
+  onAuthRequired: (_, injector) => {
     const router = injector.get(Router);
     // Redirect the user to your custom login page
     router.navigate(['/login']);
   }
 }, sampleConfig.oidc);
 
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { MessagesComponent } from './messages/messages.component';
-import { ProfileComponent } from './profile/profile.component';
+const oktaAuth = new OktaAuth(oktaConfig);
 
 const appRoutes: Routes = [
   {
@@ -53,12 +55,12 @@ const appRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [ OktaAuthGuard ],
+    canActivate: [ OktaAuthGuard ]
   },
   {
     path: 'messages',
     component: MessagesComponent,
-    canActivate: [ OktaAuthGuard ],
+    canActivate: [ OktaAuthGuard ]
   },
 ];
 
@@ -77,7 +79,7 @@ const appRoutes: Routes = [
     OktaAuthModule,
   ],
   providers: [
-    { provide: OKTA_CONFIG, useValue: oktaConfig },
+    { provide: OKTA_CONFIG, useValue: { oktaAuth } },
   ],
   bootstrap: [AppComponent],
 })
