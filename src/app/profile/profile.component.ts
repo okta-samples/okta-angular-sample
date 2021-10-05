@@ -13,11 +13,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OktaAuth } from '@okta/okta-auth-js';
 
-interface Claim {
-  claim: string;
-  value: string;
-}
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
