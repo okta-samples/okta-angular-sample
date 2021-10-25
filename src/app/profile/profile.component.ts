@@ -19,7 +19,7 @@ import { OktaAuth } from '@okta/okta-auth-js';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  claims: { name: string; value: unknown }[];
+  claims!: { name: string; value: unknown }[];
 
   constructor(public oktaAuth: OktaAuth) {
   }

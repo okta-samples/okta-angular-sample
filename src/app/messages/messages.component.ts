@@ -27,8 +27,8 @@ interface Message {
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
-  failed: Boolean;
-  messages: Array<Message> [];
+  failed!: Boolean;
+  messages: Message[] = [];
 
   constructor(public oktaAuth: OktaAuth, private http: HttpClient) {
     this.messages = [];
@@ -42,7 +42,7 @@ export class MessagesComponent implements OnInit {
       }
     }).subscribe((data: any) => {
       let index = 1;
-      const messages = data.messages.map((message) => {
+      const messages = data.messages.map((message: Message) => {
         const date = new Date(message.date);
         const day = date.toLocaleDateString();
         const time = date.toLocaleTimeString();

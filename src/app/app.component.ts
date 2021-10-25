@@ -20,7 +20,7 @@ import { OktaAuth } from '@okta/okta-auth-js';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'custom-login';
 
   constructor(private oktaAuth: OktaAuth, public authService: OktaAuthStateService) {
   }
