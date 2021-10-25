@@ -10,8 +10,5 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* SystemJS module definition */
-declare var module: NodeModule;
-interface NodeModule {
-  id: string;
-}
+declare module 'text-encoding';
+declare module '@okta/okta-signin-widget';

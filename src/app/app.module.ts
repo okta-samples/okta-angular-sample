@@ -11,7 +11,7 @@
  */
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule, Router } from '@angular/router';
 import {
@@ -30,7 +30,7 @@ import { ProfileComponent } from './profile/profile.component';
 import sampleConfig from './app.config';
 
 const oktaConfig = Object.assign({
-  onAuthRequired: (_, injector) => {
+  onAuthRequired: (_: undefined, injector: Injector) => {
     const router = injector.get(Router);
     // Redirect the user to your custom login page
     router.navigate(['/login']);

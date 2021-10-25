@@ -13,7 +13,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as OktaSignIn from '@okta/okta-signin-widget';
 import sampleConfig from '../app.config';
-import { OktaAuth } from '@okta/okta-auth-js';
+import { OktaAuth, SigninWithRedirectOptions } from '@okta/okta-auth-js';
 
 const DEFAULT_ORIGINAL_URI = window.location.origin;
 
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
        * needs to be configured with the base URL for your Okta Org. Here
        * we derive it from the given issuer for convenience.
        */
-      baseUrl: sampleConfig.oidc.issuer.split('/oauth2')[0],
+      baseUrl: sampleConfig.oidc.issuer?.split('/oauth2')[0],
       clientId: sampleConfig.oidc.clientId,
       redirectUri: sampleConfig.oidc.redirectUri,
       logo: '/assets/angular.svg',
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
     this.signIn.showSignInToGetTokens({
       el: '#sign-in-widget',
       scopes: sampleConfig.oidc.scopes
-    }).then(tokens => {
+    }).then((tokens: SigninWithRedirectOptions | undefined) => {
       const originalUri = this.oktaAuth.getOriginalUri();
       if (originalUri === DEFAULT_ORIGINAL_URI) {
         this.oktaAuth.setOriginalUri('/');
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
 
       // In this flow the redirect to Okta occurs in a hidden iframe
       this.oktaAuth.signInWithRedirect(tokens);
-    }).catch(err => {
+    }).catch((err: any) => {
       // Typically due to misconfiguration
       throw err;
     });

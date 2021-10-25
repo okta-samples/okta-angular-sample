@@ -24,9 +24,9 @@ interface ResourceServerExample {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  isAuthenticated: boolean;
+  isAuthenticated!: boolean;
   resourceServerExamples: Array<ResourceServerExample>;
-  userName: string;
+  userName?: string;
 
   constructor(public oktaAuth: OktaAuth) {
     this.resourceServerExamples = [
