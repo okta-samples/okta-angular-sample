@@ -19,7 +19,7 @@
     "@angular/forms": "~13.0.0",
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
-    "@angular/router": "~13.0.0",
+    "@angular/router": "~13.0.1",
     "@okta/okta-angular": "^4.1.1",
     "@okta/okta-auth-js": "^5.8.0",
     "@okta/okta-signin-widget": "^5.13.0",
