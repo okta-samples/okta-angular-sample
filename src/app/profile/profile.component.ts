@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { OktaAuth } from '@okta/okta-auth-js';
+import { OKTA_AUTH } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +22,7 @@ import { OktaAuth } from '@okta/okta-auth-js';
 export class ProfileComponent implements OnInit {
   claims!: { name: string; value: unknown }[];
 
-  constructor(public oktaAuth: OktaAuth) {
+  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
   }
 
   async ngOnInit() {
