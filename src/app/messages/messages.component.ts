@@ -9,12 +9,12 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import sampleConfig from '../app.config';
 import { OktaAuth } from '@okta/okta-auth-js';
+import { OKTA_AUTH } from '@okta/okta-angular';
 
 interface Message {
   date: string;
@@ -30,7 +30,7 @@ export class MessagesComponent implements OnInit {
   failed!: Boolean;
   messages: Message[] = [];
 
-  constructor(public oktaAuth: OktaAuth, private http: HttpClient) {
+  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private http: HttpClient) {
     this.messages = [];
   }
 
