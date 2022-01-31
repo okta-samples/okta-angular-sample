@@ -20,9 +20,13 @@ import { OktaAuth } from '@okta/okta-auth-js';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'custom-login';
+  title = 'okta-hosted-login';
 
   constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService) {
+  }
+
+  async login() {
+    await this.oktaAuth.signInWithRedirect();
   }
 
   async logout() {

@@ -1,6 +1,6 @@
-# Okta Angular + Custom Login Example
+# Okta Angular + Okta Hosted Login Example
 
-This example shows you how to use the [Okta Angular Library][] to login a user to an Angular application.  The login is achieved with the [Okta Sign In Widget][], which gives you more control to customize the login experience within your app.
+This example shows you how to use the [Okta Angular Library][] to login a user to an Angular application.  The login is achieved through the [PKCE Flow][], where the user is redirected to the Okta-Hosted login page.  After the user authenticates they are redirected back to the application with an ID Token and Access Token.
 
 This example is built with [Angular CLI][].
 
@@ -33,11 +33,11 @@ ng serve
 
 Now navigate to http://localhost:4200 in your browser.
 
-If you see a home page that prompts you to login, then things are working!  Clicking the **Log in** button will render a custom login page component that uses the Okta Sign-In Widget to perform authentication.
+If you see a home page that prompts you to login, then things are working!  Clicking the **Log in** button will redirect you to the Okta hosted sign-in page.
 
 You can sign in with the same account that you created when signing up for your Developer Org, or you can use a known username and password from your Okta Directory.
 
-> **Note:** If you are currently using your Developer Console, you already have a Single Sign-On (SSO) session for your Org.  You will be automatically logged into your application as the same user that is using the Developer Console.  You may want to use an incognito tab to test the flow from a blank slate.
+> **Note:** If you are currently using the Okta Admin Console, you already have a Single Sign-On (SSO) session for your Org.  You will be automatically logged into your application as the same user that is using the Developer Console.  You may want to use an incognito tab to test the flow from a blank slate.
 
 ## Integrating The Resource Server
 
@@ -53,4 +53,3 @@ Once you have the resource server running (it will run on port 8000) you can vis
 [Okta Angular Library]: https://github.com/okta/okta-oidc-js/tree/master/packages/okta-angular
 [PKCE Flow]: https://developer.okta.com/docs/guides/implement-auth-code-pkce
 [OIDC SPA Setup Instructions]: https://developer.okta.com/docs/guides/sign-into-spa/angular/before-you-begin
-[Okta Sign In Widget]: https://github.com/okta/okta-signin-widget

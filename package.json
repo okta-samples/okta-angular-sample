@@ -22,7 +22,6 @@
     "@angular/router": "~13.2.0",
     "@okta/okta-angular": "^5.1.1",
     "@okta/okta-auth-js": "^6.0.0",
-    "@okta/okta-signin-widget": "^6.0.0",
     "rxjs": "~7.5.2",
     "semantic-ui-css": "^2.4.1",
     "tslib": "^2.3.1",
