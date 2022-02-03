@@ -15,6 +15,8 @@ Before running this sample, you will need the following:
 
 Grab and configure this project using `okta start angular`.
 
+> **NOTE**: If you'd like to use the Okta Sign-In Widget instead of redirect to Okta, use `okta start angular --branch widget`.
+
 Follow the instructions printed to the console.
 
 ## Run the Example
