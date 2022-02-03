@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   isAuthenticated!: boolean;
   resourceServerExamples: Array<ResourceServerExample>;
   userName?: string;
+  error?: Error;
 
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
     this.resourceServerExamples = [
@@ -44,6 +45,15 @@ export class HomeComponent implements OnInit {
         url: 'https://github.com/okta/samples-aspnet/tree/master/resource-server'
       }
     ];
+  }
+
+  async login() {
+    try {
+      await this.oktaAuth.signInWithRedirect();
+    } catch (err: any) {
+      console.error(err);
+      this.error = err;
+    }
   }
 
   async ngOnInit() {
