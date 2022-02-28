@@ -2,9 +2,9 @@ name: Angular CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ widget ]
   pull_request:
-    branches: [ main ]
+    branches: [ widget ]
 
 jobs:
   build:
