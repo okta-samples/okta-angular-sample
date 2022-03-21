@@ -34,28 +34,30 @@ export class MessagesComponent implements OnInit {
     this.messages = [];
   }
 
-  async ngOnInit() {
-    const accessToken = await this.oktaAuth.getAccessToken();
+  ngOnInit() {
+    const accessToken = this.oktaAuth.getAccessToken();
     this.http.get(sampleConfig.resourceServer.messagesUrl, {
       headers: {
         Authorization: 'Bearer ' + accessToken,
       }
-    }).subscribe((data: any) => {
-      let index = 1;
-      const messages = data.messages.map((message: Message) => {
-        const date = new Date(message.date);
-        const day = date.toLocaleDateString();
-        const time = date.toLocaleTimeString();
-        return {
-          date: `${day} ${time}`,
-          text: message.text,
-          index: index++
-        };
-      });
-      [].push.apply(this.messages, messages);
-    }, (err) => {
-      console.error(err);
-      this.failed = true;
+    }).subscribe({
+      next: (data: any) => {
+        let index = 1;
+        const messages = data.messages.map((message: Message) => {
+          const date = new Date(message.date);
+          const day = date.toLocaleDateString();
+          const time = date.toLocaleTimeString();
+          return {
+            date: `${day} ${time}`,
+            text: message.text,
+            index: index++
+          };
+        });
+        [].push.apply(this.messages, messages);
+      }, error: (err) => {
+        console.error(err);
+        this.failed = true;
+      }
     });
   }
 }
