@@ -37,7 +37,7 @@ If you see a home page that prompts you to login, then things are working!  Clic
 
 You can sign in with the same account that you created when signing up for your Developer Org, or you can use a known username and password from your Okta Directory.
 
-> **Note:** If you are currently using the Okta Admin Console, you already have a Single Sign-On (SSO) session for your Org.  You will be automatically logged into your application as the same user that is using the Developer Console.  You may want to use an incognito tab to test the flow from a blank slate.
+> **Note:** If you are currently using the Okta Admin Console, you already have a Single Sign-On (SSO) session for your Org.  You will be automatically logged into your application as the same user that is using the Admin Console.  You may want to use an incognito tab to test the flow from a blank slate.
 
 ## Integrating The Resource Server
 
