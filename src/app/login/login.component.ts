@@ -11,7 +11,7 @@
  */
 
 import { Component, Inject, OnInit } from '@angular/core';
-import * as OktaSignIn from '@okta/okta-signin-widget';
+import OktaSignIn from '@okta/okta-signin-widget';
 import sampleConfig from '../app.config';
 import { OktaAuth, SigninWithRedirectOptions } from '@okta/okta-auth-js';
 import { OKTA_AUTH } from '@okta/okta-angular';
