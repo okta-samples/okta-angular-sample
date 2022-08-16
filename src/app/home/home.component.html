@@ -1,17 +1,20 @@
-<div *ngIf="error" class="error">
-  {{ error }}
-</div>
-
-<h1 class="ui header">PKCE Flow w/ Okta Hosted Login Page</h1>
+<h1 class="ui header">Custom Login Page with Sign In Widget</h1>
 <div *ngIf="!isAuthenticated">
   <p>If you're viewing this page then you have successfully started this Angular application.</p>
   <p>This example shows you how to use the
-    <a href="https://github.com/okta/okta-angular">Okta Angular Library</a> to add the
-    <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a> to your application.</p>
-  <p>When you click the login button below, you will be redirected to the login page on your Okta org. After you authenticate,
-    you will be returned to this application with an ID Token and Access Token. These tokens will be stored in local storage
-    and can be retrieved at a later time.</p>
-  <button id="login-button" class="ui primary button" role="button" (click)="login()">Login</button>
+    <a href="https://github.com/okta/okta-angular">Okta Angular Library</a>
+    and the
+    <a href="https://github.com/okta/okta-signin-widget">Okta Sign-In Widget</a>
+    to add the
+    <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a>
+    to your application.
+    This combination is useful when you want to leverage the features of the Sign-In Widget, and the authentication helper components from the okta-angular module.
+  </p>
+  <p>
+    Once you have logged in you will be redirected through your authorization server (the issuer defined in config) to create a session for Single-Sign-On (SSO).
+    After this you will be redirected back to the application with an ID Token and Access Token. The tokens will be stored in local storage for future use.
+  </p>
+  <button id="login-button" class="ui primary button" role="button" routerLink="/login">Login</button>
 </div>
 
 <div *ngIf="isAuthenticated && userName">

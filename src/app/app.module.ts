@@ -11,9 +11,9 @@
  */
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Router } from '@angular/router';
 import {
   OKTA_CONFIG,
   OktaAuthGuard,
@@ -23,12 +23,21 @@ import {
 import { OktaAuth } from '@okta/okta-auth-js';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ProfileComponent } from './profile/profile.component';
 
-import oktaConfig from './app.config';
+import sampleConfig from './app.config';
 
-const oktaAuth = new OktaAuth(oktaConfig.oidc);
+const oktaConfig = Object.assign({
+  onAuthRequired: (_: undefined, injector: Injector) => {
+    const router = injector.get(Router);
+    // Redirect the user to your custom login page
+    router.navigate(['/login']);
+  }
+}, sampleConfig.oidc);
+
+const oktaAuth = new OktaAuth(oktaConfig);
 
 const appRoutes: Routes = [
   {
@@ -38,6 +47,10 @@ const appRoutes: Routes = [
   {
     path: 'login/callback',
     component: OktaCallbackComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: 'profile',
@@ -56,7 +69,8 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     ProfileComponent,
-    MessagesComponent
+    MessagesComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

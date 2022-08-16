@@ -31,10 +31,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'okta-hosted-login'`, () => {
+  it(`should have as title 'custom-login'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('okta-hosted-login');
+    expect(app.title).toEqual('custom-login');
   });
 
   it('should render title', () => {
