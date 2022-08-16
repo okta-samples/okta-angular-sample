@@ -114,8 +114,9 @@
       }
     }
   },
-  "defaultProject": "okta-hosted-login",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
