@@ -19,7 +19,7 @@
     "@angular/forms": "^14.2.0",
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
-    "@angular/router": "^14.2.0",
+    "@angular/router": "^14.2.2",
     "@okta/okta-angular": "^5.2.0",
     "@okta/okta-auth-js": "^6.8.0",
     "rxjs": "~7.5.6",
