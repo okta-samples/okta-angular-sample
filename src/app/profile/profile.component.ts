@@ -11,7 +11,7 @@
  */
 
 import { Component, Inject, OnInit } from '@angular/core';
-import { OktaAuth } from '@okta/okta-auth-js';
+import { IDToken, OktaAuth } from '@okta/okta-auth-js';
 import { OKTA_AUTH } from '@okta/okta-angular';
 
 @Component({
@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const idToken = await this.oktaAuth.tokenManager.get('idToken');
+    const idToken: IDToken = await this.oktaAuth.tokenManager.get('idToken') as IDToken;
     this.claims = Object.entries(idToken.claims).map(entry => ({ name: entry[0], value: entry[1] }));
   }
 
