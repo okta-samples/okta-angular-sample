@@ -1,13 +1,13 @@
 oauthClient:
   redirectUris:
     - http://localhost:4200/login/callback
-  applicationType: browser
-trustedOrigins: 
+  applicationType: [browser, device]
+trustedOrigins:
   - http://localhost:4200
 
 directions: |+2
   Okta configuration written to: .okta.env
-  
+
   Build this example using NPM:
 
       npm install
