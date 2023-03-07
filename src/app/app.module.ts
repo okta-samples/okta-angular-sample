@@ -62,10 +62,7 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    OktaAuthModule
-  ],
-  providers: [
-    { provide: OKTA_CONFIG, useValue: { oktaAuth } },
+    OktaAuthModule.forRoot({ oktaAuth })
   ],
   bootstrap: [AppComponent],
 })
