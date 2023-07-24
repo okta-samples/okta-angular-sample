@@ -18,7 +18,7 @@
     "@angular/core": "^16.1.2",
     "@angular/forms": "^16.1.2",
     "@angular/platform-browser": "^16.1.2",
-    "@angular/platform-browser-dynamic": "^16.1.2",
+    "@angular/platform-browser-dynamic": "^16.1.6",
     "@angular/router": "^16.1.2",
     "@okta/okta-angular": "^6.2.0",
     "@okta/okta-auth-js": "^7.3.0",
