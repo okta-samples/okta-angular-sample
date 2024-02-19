@@ -41,7 +41,7 @@
     "@types/node": "^20.11.17",
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
-    "dotenv": "^16.4.2",
+    "dotenv": "^16.4.4",
     "eslint": "^8.56.0",
     "jasmine-core": "~5.1.2",
     "karma": "~6.4.2",
