@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
-    "@okta/okta-angular": "^6.3.2",
+    "@okta/okta-angular": "^6.4.0",
     "@okta/okta-auth-js": "^7.4.3",
     "rxjs": "~7.8.1",
     "semantic-ui-css": "^2.5.0",
