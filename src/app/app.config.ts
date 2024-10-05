@@ -1,9 +1,12 @@
 const { CLIENT_ID, ISSUER, OKTA_TESTING_DISABLEHTTPSCHECK } = process.env;
 
+let clientId:string = CLIENT_ID!
+let issuer:string = ISSUER!
+
 export default {
   oidc: {
-    clientId: CLIENT_ID,
-    issuer: ISSUER,
+    clientId: clientId,
+    issuer: issuer,
     redirectUri: 'http://localhost:4200/login/callback',
     scopes: ['openid', 'profile', 'email'],
     testing: {
