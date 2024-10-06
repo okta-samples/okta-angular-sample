@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "custom-login:build"
+            "buildTarget": "custom-login:build"
           }
         },
         "test": {
