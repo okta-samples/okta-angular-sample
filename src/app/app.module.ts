@@ -12,7 +12,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injector } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Routes, RouterModule, Router } from '@angular/router';
 import {
   OKTA_CONFIG,
@@ -64,23 +64,17 @@ const appRoutes: Routes = [
   },
 ];
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    ProfileComponent,
-    MessagesComponent,
-    LoginComponent,
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-    OktaAuthModule
-  ],
-  providers: [
-    { provide: OKTA_CONFIG, useValue: { oktaAuth } },
-  ],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        ProfileComponent,
+        MessagesComponent,
+        LoginComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        RouterModule.forRoot(appRoutes),
+        OktaAuthModule], providers: [
+        { provide: OKTA_CONFIG, useValue: { oktaAuth } },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule { }
