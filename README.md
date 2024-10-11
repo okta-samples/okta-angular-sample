@@ -19,6 +19,10 @@ Grab and configure this project using `okta start angular`.
 
 Follow the instructions printed to the console.
 
+## Enable Refresh Token
+
+Sign into your [Okta Developer Edition account](https://developer.okta.com/login/) to add a required setting to your Angular Okta app to avoid third-party cookies. Navigate to **Applications** > **Applications** and select "okta-angular-sample" application to edit. Find the **General Settings** and press **Edit**. Enable **Refresh Token** in the **Grant type** section. **Save** your changes.
+
 ## Run the Example
 
 To run this application, install its dependencies:
