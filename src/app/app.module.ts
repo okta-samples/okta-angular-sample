@@ -10,21 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
-import {Routes, RouterModule} from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { Routes, RouterModule } from '@angular/router';
 import {
   OKTA_CONFIG,
   OktaAuthGuard,
   OktaAuthModule,
   OktaCallbackComponent,
 } from '@okta/okta-angular';
-import {OktaAuth} from '@okta/okta-auth-js';
-import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
-import {MessagesComponent} from './messages/messages.component';
-import {ProfileComponent} from './profile/profile.component';
+import { OktaAuth } from '@okta/okta-auth-js';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { MessagesComponent } from './messages/messages.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import oktaConfig from './app.config';
 
@@ -42,12 +42,12 @@ const appRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [OktaAuthGuard]
+    canActivate: [ OktaAuthGuard ]
   },
   {
     path: 'messages',
     component: MessagesComponent,
-    canActivate: [OktaAuthGuard]
+    canActivate: [ OktaAuthGuard ]
   },
 ];
 
@@ -58,10 +58,12 @@ const appRoutes: Routes = [
     ProfileComponent,
     MessagesComponent
   ],
-  bootstrap: [AppComponent],
-  imports: [BrowserModule,
+  imports: [
+    BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    OktaAuthModule.forRoot({oktaAuth})], providers: [provideHttpClient(withInterceptorsFromDi())]
+    OktaAuthModule.forRoot({oktaAuth})
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule { }
