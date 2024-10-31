@@ -62,7 +62,7 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    OktaAuthModule.forRoot({oktaAuth})
+    OktaAuthModule.forRoot({ oktaAuth })
   ],
   bootstrap: [AppComponent],
 })

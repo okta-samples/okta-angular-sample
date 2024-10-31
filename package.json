@@ -51,5 +51,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "text-encoding": "^0.7.0",
     "typescript": "~5.4.5"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.22.4"
   }
 }
