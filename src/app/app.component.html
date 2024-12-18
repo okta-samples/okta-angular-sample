@@ -3,14 +3,17 @@
 <div class="ui inverted top fixed menu">
   <div class="ui container">
     <a routerLink="/" class="header item">
-      <img class="ui mini image" src="/assets/angular.svg">
+      <img class="ui mini image" src="icon_angular_wht.svg" alt="Angular logo">
       &nbsp;
       Okta-Angular Sample Project
     </a>
-    <a class="item" *ngIf="!(authService.authState$ | async)?.isAuthenticated" (click)="login()">Login</a>
-    <a id="messages-button" class="item" *ngIf="(authService.authState$ | async)?.isAuthenticated" routerLink="/messages"><i aria-hidden="true" class="mail outline icon"></i>Messages</a>
-    <a id="profile-button" class="item" *ngIf="(authService.authState$ | async)?.isAuthenticated" routerLink="/profile">Profile</a>
-    <a id="logout-button" class="item" *ngIf="(authService.authState$ | async)?.isAuthenticated" (click)="logout()">Logout</a>
+    @if ((isAuthenticated$ | async) === false) {
+      <a class="item" (click)="login()">Login</a>
+    } @else {
+      <a id="messages-button" class="item" routerLink="/messages"><i aria-hidden="true" class="mail outline icon"></i>Messages</a>
+      <a id="profile-button" class="item" routerLink="/profile">Profile</a>
+      <a id="logout-button" class="item" (click)="logout()">Logout</a>
+    }
   </div>
 </div>
 

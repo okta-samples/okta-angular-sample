@@ -1,21 +1,19 @@
-<div *ngIf="error" class="error">
-  {{ error }}
-</div>
+@if (error) {
+  <div class="error">
+    {{ error }}
+  </div>
+}
 
 <h1 class="ui header">PKCE Flow w/ Okta Hosted Login Page</h1>
-<div *ngIf="!isAuthenticated">
-  <p>If you're viewing this page then you have successfully started this Angular application.</p>
-  <p>This example shows you how to use the
-    <a href="https://github.com/okta/okta-angular">Okta Angular Library</a> to add the
-    <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a> to your application.</p>
-  <p>When you click the login button below, you will be redirected to the login page on your Okta org. After you authenticate,
-    you will be returned to this application with an ID Token and Access Token. These tokens will be stored in local storage
-    and can be retrieved at a later time.</p>
-  <button id="login-button" class="ui primary button" role="button" (click)="login()">Login</button>
-</div>
 
-<div *ngIf="isAuthenticated && userName">
-  <p>Welcome back, {{ userName }}!</p>
+@if (isAuthenticated) {
+  <div>
+
+  @if(userName) {
+    <p>Welcome back, {{ userName }}!</p>
+  } @else {
+    <p>Welcome back, {{ userName }}!</p>
+  }
   <p>
     You have successfully authenticated against your Okta org, and have been redirected back to this application.  You now have an ID Token and access token in local storage.
     Visit the <a href="/profile">My Profile</a> page to take a look inside the ID Token.
@@ -24,7 +22,21 @@
   <p>Currently this application is a stand-alone front end application.  At this point you can use the access token to authenticate yourself against resource servers that you control.</p>
   <p>This sample is designed to work with one of our resource server examples.  To see access token authentication in action, please download one of these resource server examples:</p>
   <ul>
-    <li *ngFor="let example of resourceServerExamples"><a href="{{example.url}}">{{example.label}}</a></li>
+    @for (example of resourceServerExamples; track example.url) {
+      <li><a href="{{example.url}}">{{example.label}}</a></li>
+    }
   </ul>
   <p>Once you have downloaded and started the example resource server, you can visit the <a href="/messages">My Messages</a> page to see the authentication process in action.</p>
 </div>
+} @else {
+  <div>
+    <p>If you're viewing this page then you have successfully started this Angular application.</p>
+    <p>This example shows you how to use the
+      <a href="https://github.com/okta/okta-angular">Okta Angular Library</a> to add the
+      <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a> to your application.</p>
+    <p>When you click the login button below, you will be redirected to the login page on your Okta org. After you authenticate,
+      you will be returned to this application with an ID Token and Access Token. These tokens will be stored in local storage
+      and can be retrieved at a later time.</p>
+    <button id="login-button" class="ui primary button" role="button" (click)="login()">Login</button>
+  </div>
+}

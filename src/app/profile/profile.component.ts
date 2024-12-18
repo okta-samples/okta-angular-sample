@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
-import { IDToken, OktaAuth } from '@okta/okta-auth-js';
+import { Component, inject, OnInit } from '@angular/core';
+import { IDToken } from '@okta/okta-auth-js';
 import { OKTA_AUTH } from '@okta/okta-angular';
 
 @Component({
@@ -20,10 +20,8 @@ import { OKTA_AUTH } from '@okta/okta-angular';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  claims!: { name: string; value: unknown }[];
-
-  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
-  }
+  private oktaAuth = inject(OKTA_AUTH);
+  public claims: { name: string; value: unknown }[] = [];
 
   async ngOnInit() {
     const idToken: IDToken = await this.oktaAuth.tokenManager.get('idToken') as IDToken;
