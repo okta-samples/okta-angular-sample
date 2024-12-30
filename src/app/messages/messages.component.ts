@@ -9,55 +9,48 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import sampleConfig from '../app.config';
-import { OktaAuth } from '@okta/okta-auth-js';
+import sampleConfig from '../okta.config';
 import { OKTA_AUTH } from '@okta/okta-angular';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 interface Message {
   date: string;
   text: string;
+  index?: number;
 }
 
 @Component({
   selector: 'app-messages',
+  imports: [AsyncPipe],
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent implements OnInit {
-  failed!: Boolean;
-  messages: Message[] = [];
-
-  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private http: HttpClient) {
-    this.messages = [];
-  }
-
-  ngOnInit() {
-    const accessToken = this.oktaAuth.getAccessToken();
-    this.http.get(sampleConfig.resourceServer.messagesUrl, {
-      headers: {
-        Authorization: 'Bearer ' + accessToken,
-      }
-    }).subscribe({
-      next: (data: any) => {
-        let index = 1;
-        const messages = data.messages.map((message: Message) => {
-          const date = new Date(message.date);
-          const day = date.toLocaleDateString();
-          const time = date.toLocaleTimeString();
-          return {
-            date: `${day} ${time}`,
-            text: message.text,
-            index: index++
-          };
-        });
-        [].push.apply(this.messages, messages);
-      }, error: (err) => {
-        console.error(err);
-        this.failed = true;
-      }
-    });
-  }
+export class MessagesComponent {
+  private oktaAuth = inject(OKTA_AUTH);
+  private http = inject(HttpClient);
+  failed: boolean|null = null;
+  messages$: Observable<Message[]> = this.http.get<{messages: Message[]}>(sampleConfig.resourceServer.messagesUrl, {
+    headers: {
+      Authorization: `Bearer  ${this.oktaAuth.getAccessToken()}`,
+    }
+  })
+  .pipe(
+    map(res => res.messages || []),
+    map(res => res.map(({date, text}, index: number) => {
+      const d = new Date(date);
+      return {
+        date: `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`,
+        text,
+        index
+      };
+    })),
+    catchError(err => {
+      console.error(err);
+      return throwError(() => err);
+    })
+  );
 }

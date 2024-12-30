@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
 import { of } from 'rxjs';
+import { provideRouter } from '@angular/router';
 
 describe('AppComponent', () => {
 
@@ -17,12 +17,10 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-      ],
-      declarations: [
-        AppComponent
+        AppComponent,
       ],
       providers: [
+        provideRouter([]),
         { provide: OktaAuthStateService, useValue: authStateSpy },
         { provide: OKTA_AUTH, useValue: authSpy }
       ]
@@ -33,12 +31,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'custom-login'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('custom-login');
   });
 
   it('should render title', () => {

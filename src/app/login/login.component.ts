@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import OktaSignIn from '@okta/okta-signin-widget';
-import sampleConfig from '../app.config';
-import { OktaAuth, SigninWithRedirectOptions } from '@okta/okta-auth-js';
+import sampleConfig from '../okta.config';
+import { Tokens } from '@okta/okta-auth-js';
 import { OKTA_AUTH } from '@okta/okta-angular';
 
 const DEFAULT_ORIGINAL_URI = window.location.origin;
@@ -24,9 +24,11 @@ const DEFAULT_ORIGINAL_URI = window.location.origin;
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  signIn: any;
+  public oktaAuth = inject(OKTA_AUTH);
+  public signIn: OktaSignIn;
 
-  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
+  constructor() {
+    const { issuer, clientId, redirectUri, scopes } = sampleConfig.oidc;
     this.signIn = new OktaSignIn({
       /**
        * Note: when using the Sign-In Widget for an OIDC flow, it still
@@ -34,25 +36,27 @@ export class LoginComponent implements OnInit {
        * we derive it from the given issuer for convenience.
        */
       baseUrl: sampleConfig.oidc.issuer?.split('/oauth2')[0],
-      clientId: sampleConfig.oidc.clientId,
-      redirectUri: sampleConfig.oidc.redirectUri,
-      logo: '/assets/angular.svg',
+      clientId,
+      redirectUri,
+      logo: 'icon_angular_gradient.png',
       i18n: {
         en: {
           'primaryauth.title': 'Sign in to Angular & Company',
         },
       },
+      // authClient: this.oktaAuth,
       authParams: {
-        issuer: sampleConfig.oidc.issuer
+        issuer,
+        scopes
       },
     });
   }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.signIn.showSignInToGetTokens({
       el: '#sign-in-widget',
       scopes: sampleConfig.oidc.scopes
-    }).then((tokens: SigninWithRedirectOptions | undefined) => {
+    }).then((tokens: Tokens) => {
       const originalUri = this.oktaAuth.getOriginalUri();
       if (originalUri === DEFAULT_ORIGINAL_URI) {
         this.oktaAuth.setOriginalUri('/');
@@ -62,8 +66,8 @@ export class LoginComponent implements OnInit {
       this.signIn.remove();
 
       // In this flow the redirect to Okta occurs in a hidden iframe
-      this.oktaAuth.signInWithRedirect(tokens);
-    }).catch((err: any) => {
+      this.oktaAuth.handleLoginRedirect(tokens);
+    }).catch((err: unknown) => {
       // Typically due to misconfiguration
       throw err;
     });
