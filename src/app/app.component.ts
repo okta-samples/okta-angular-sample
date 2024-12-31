@@ -10,22 +10,28 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Component, Inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { OKTA_AUTH, OktaAuthStateService } from '@okta/okta-angular';
-import { OktaAuth } from '@okta/okta-auth-js';
+import { AuthState } from '@okta/okta-auth-js';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet, AsyncPipe, RouterLink],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'custom-login';
+  private oktaAuth = inject(OKTA_AUTH);
+  private authService = inject(OktaAuthStateService);
 
-  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService) {
-  }
-
-  async logout() {
+  public isAuthenticated$ = this.authService.authState$.pipe(
+    filter((authState: AuthState) => !!authState),
+    map((authState: AuthState) => authState.isAuthenticated ?? false)
+  );
+  async logout(): Promise<void> {
     await this.oktaAuth.signOut();
   }
 }

@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
-import { OktaAuth } from '@okta/okta-auth-js';
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { OKTA_AUTH } from '@okta/okta-angular';
 
 interface ResourceServerExample {
@@ -21,30 +21,30 @@ interface ResourceServerExample {
 
 @Component({
   selector: 'app-home',
+  imports: [RouterLink],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  isAuthenticated!: boolean;
-  resourceServerExamples: Array<ResourceServerExample>;
-  userName?: string;
+  resourceServerExamples: ResourceServerExample[] = [
+    {
+      label: 'Node/Express Resource Server Example',
+      url: 'https://github.com/okta/samples-nodejs-express-4/tree/master/resource-server',
+    },
+    {
+      label: 'Java/Spring MVC Resource Server Example',
+      url: 'https://github.com/okta/samples-java-spring/tree/master/resource-server',
+    },
+    {
+      label: 'ASP.NET Resource Server Example',
+      url: 'https://github.com/okta/samples-aspnet/tree/master/resource-server'
+    }
+  ];
 
-  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
-    this.resourceServerExamples = [
-      {
-        label: 'Node/Express Resource Server Example',
-        url: 'https://github.com/okta/samples-nodejs-express-4/tree/master/resource-server',
-      },
-      {
-        label: 'Java/Spring MVC Resource Server Example',
-        url: 'https://github.com/okta/samples-java-spring/tree/master/resource-server',
-      },
-      {
-        label: 'ASP.NET Resource Server Example',
-        url: 'https://github.com/okta/samples-aspnet/tree/master/resource-server'
-      }
-    ];
-  }
+  isAuthenticated = false;
+  userName: string|undefined = undefined;
+  error: Error|null = null;
+  private oktaAuth = inject(OKTA_AUTH);
 
   async ngOnInit() {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();

@@ -17,9 +17,9 @@ Grab and configure this project using `okta start angular --branch widget`.
 
 Follow the instructions printed to the console.
 
-## Enable Refresh Token
+## Update Okta Settings
 
-Sign into your [Okta Developer Edition account](https://developer.okta.com/login/) to add a required setting to your Angular Okta app to avoid third-party cookies. Navigate to **Applications** > **Applications** and select "okta-angular-sample" application to edit. Find the **General Settings** and press **Edit**. Enable **Refresh Token** in the **Grant type** section. **Save** your changes.
+You'll need to make changes in Okta to support refresh tokens, enable interaction code grant, and add a custom authorization server by following the instructions in [Create an Okta app integration](https://developer.okta.com/docs/guides/sign-in-to-spa-embedded-widget/angular/main/#create-an-okta-app-integration) docs.
 
 ## Run the Example
 
