@@ -44,7 +44,7 @@
     "dotenv": "^16.4.7",
     "eslint": "8.57.0",
     "fs": "^0.0.1-security",
-    "jasmine-core": "~5.4.0",
+    "jasmine-core": "~5.9.0",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.1",
