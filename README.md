@@ -6,16 +6,65 @@ This example is built with [Angular CLI][].
 
 ## Prerequisites
 
-Before running this sample, you will need the following:
+Before you begin, you’ll need an Okta Integrator Free Plan account. To get one, sign up for an [Integrator account](https://developer.okta.com/login). Once you have an account, sign in to your [Integrator account](https://developer.okta.com/login). Next, in the Admin Console:
 
-* [The Okta CLI Tool](https://github.com/okta/okta-cli#installation)
-* An Okta Developer Account (create one using `okta register`, or configure an existing one with `okta login`)
+1. Go to **Applications > Applications**
+2. Click **Create App Integration**
+3. Select **OIDC - OpenID Connect** as the sign-in method
+4. Select **Single-Page Application** as the application type, then click **Next**
+5. Enter an app integration name (e.g. "My Angular SPA")
+6. In the **Grant type** section, ensure both **Authorization Code** and **Refresh Token** are selected
+7. Configure the redirect URIs:
+- **Sign-in redirect URIs:** `http://localhost:4200/login/callback`
+- **Sign-out redirect URIs:** `http://localhost:4200`
+8. In the **Controlled access** section, select the appropriate access level
+9. Click **Save**
+
+## Configure Okta resources
+
+**Verify Authorization Server**
+
+When using a custom authorization server, you need to set up authorization policies. Complete these additional steps:
+
+1. In the Admin Console, go to **Security > API > Authorization Servers**
+2. Select your custom authorization server (`default`)
+3. On the **Access Policies** tab, ensure you have at least one policy:
+  - If no policies exist, click **Add New Access Policy**
+  - Give it a name like “Default Policy”
+  - Set **Assign to** to “All clients”
+  - Click **Create Policy**
+4. For your policy, ensure you have at least one rule:
+  - Click **Add Rule** if no rules exist
+  - Give it a name like “Default Rule”
+  - Set **Grant type** is to “Authorization Code”
+  - Set **User** is to “Any user assigned the app”
+  - Set **Scopes requested** to “Any scopes”
+  - Click **Create Rule**
+
+For more details, see the [Custom Authorization Server documentation](https://developer.okta.com/docs/concepts/auth-servers/#custom-authorization-server).
 
 ## Get the Code
 
-Grab and configure this project using `okta start angular --branch widget`.
+```bash
+git clone https://github.com/okta-samples/okta-angular-sample.git
+cd okta-angular-sample
+git checkout widget
+```
 
-Follow the instructions printed to the console.
+Update your `.okta.env` file with the values from your application's configuration:
+
+```text
+ISSUER=https://integrator-1337.okta.com
+CLIENT_ID=0oab8eb55Kb9jdMIr5d6
+```
+
+### Where are my new app's credentials?
+
+Creating an OIDC Single-Page App manually in the Admin Console configures your Okta Org with the application settings. You may also need to configure trusted origins for `http://localhost:4200` in **Security > API > Trusted Origins**.
+
+After creating the app, you can find the configuration details on the app’s **General** tab:
+- **Client ID**: Found in the **Client Credentials** section
+- **Issuer**: Found in the **Issuer URI** field for the authorization server that appears by selecting **Security > API** from the navigation pane.
 
 ## Update Okta Settings
 
