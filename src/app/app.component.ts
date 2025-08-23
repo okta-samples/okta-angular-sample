@@ -10,26 +10,34 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Component, Inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { filter, map } from 'rxjs';
+
 import { OKTA_AUTH, OktaAuthStateService } from '@okta/okta-angular';
-import { OktaAuth } from '@okta/okta-auth-js';
+import { AuthState } from '@okta/okta-auth-js';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet, AsyncPipe, RouterLink],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'okta-hosted-login';
+  private oktaAuth = inject(OKTA_AUTH);
+  private authService = inject(OktaAuthStateService);
+  
+  public isAuthenticated$ = this.authService.authState$.pipe(
+    filter((authState: AuthState) => !!authState),
+    map((authState: AuthState) => authState.isAuthenticated ?? false)
+  );
 
-  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService) {
-  }
-
-  async login() {
+  async login(): Promise<void> {
     await this.oktaAuth.signInWithRedirect();
   }
 
-  async logout() {
-    await this.oktaAuth.signOut();
+  async logout(): Promise<boolean> {
+    return await this.oktaAuth.signOut();
   }
 }

@@ -17,9 +17,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let claim of claims">
-      <td>{{claim.name}}</td>
-      <td id="claim-{{claim.name}}">{{claim.value}}</td>
-    </tr>
+    @for (claim of claims; track claim.name) {
+      <tr>
+        <td>{{claim.name}}</td>
+        <td id="claim-{{claim.name}}">{{claim.value}}</td>
+      </tr>
+    }
   </tbody>
 </table>
