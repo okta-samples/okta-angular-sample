@@ -66,18 +66,6 @@ After creating the app, you can find the configuration details on the app’s **
 - **Client ID**: Found in the **Client Credentials** section
 - **Issuer**: Found in the **Issuer URI** field for the authorization server that appears by selecting **Security > API** from the navigation pane.
 
-
-**Verify Authorization Server**
-
-This repo calls a custom resource server to demonstrate making a protected resource request using an access token. Ensure that your default custom authorization server has an access policy. Add an access policy if it's not there. See [Create access polices](https://help.okta.com/okta_help.htm?type=oie&id=ext-create-access-policies).
-
-
-## Configure Okta resources
-
-**Verify Authorization Server**
-
-This repo calls a custom resource server to demonstrate making a protected resource request using an access token. Ensure that your default custom authorization server has an access policy. Add an access policy if it's not there. See [Create access polices](https://help.okta.com/okta_help.htm?type=oie&id=ext-create-access-policies).
-
 ## Run the Example
 
 To run this application, install its dependencies:
