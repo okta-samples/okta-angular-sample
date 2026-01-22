@@ -23,7 +23,7 @@
     "@angular/router": "^19.0.0",
     "@okta/okta-angular": "^6.4.0",
     "@okta/okta-auth-js": "^7.8.1",
-    "rxjs": "~7.8.0",
+    "rxjs": "~7.8.2",
     "semantic-ui-css": "^2.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
