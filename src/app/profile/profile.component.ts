@@ -1,31 +1,29 @@
-/*!
- * Copyright (c) 2020-Present, Okta, Inc. and/or its affiliates. All rights reserved.
- * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
- *
- * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *
- * See the License for the specific language governing permissions and limitations under the License.
- */
-
-import { Component, inject, OnInit } from '@angular/core';
-import { IDToken } from '@okta/okta-auth-js';
-import { OKTA_AUTH } from '@okta/okta-angular';
+import { Component, inject } from '@angular/core';
+import { OktaAuthStateService } from '@okta/okta-angular';
+import { filter, map } from 'rxjs';
+import { AuthState } from '@okta/okta-auth-js';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
+  imports: [AsyncPipe],
+  template: `
+  <div class="profile-card">
+    <div class="shield"></div>
+    <p>Welcome
+      @if(name$ | async; as name) {
+        <span>{{name}} </span>
+      }
+    </p>
+  </div>
+  `,
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
-  private oktaAuth = inject(OKTA_AUTH);
-  public claims: { name: string; value: unknown }[] = [];
+export class ProfileComponent {
+  private oktaAuthStateService = inject(OktaAuthStateService);
 
-  async ngOnInit() {
-    const idToken: IDToken = await this.oktaAuth.tokenManager.get('idToken') as IDToken;
-    this.claims = Object.entries(idToken.claims).map(entry => ({ name: entry[0], value: entry[1] }));
-  }
-
+  public name$ = this.oktaAuthStateService.authState$.pipe(
+    filter((authState: AuthState) => !!authState && !!authState.isAuthenticated),
+    map((authState: AuthState) => authState.idToken?.claims.name ?? '')
+  );
 }

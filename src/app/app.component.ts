@@ -21,13 +21,12 @@ import { AuthState } from '@okta/okta-auth-js';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, AsyncPipe, RouterLink],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   private oktaAuth = inject(OKTA_AUTH);
   private authService = inject(OktaAuthStateService);
-  
+
   public isAuthenticated$ = this.authService.authState$.pipe(
     filter((authState: AuthState) => !!authState),
     map((authState: AuthState) => authState.isAuthenticated ?? false)

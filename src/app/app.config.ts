@@ -1,21 +1,27 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { OktaAuthModule } from '@okta/okta-angular';
-import { OktaAuth } from '@okta/okta-auth-js';
-import oktaConfig from './okta.config';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './auth.interceptor';
 
-const oktaAuth = new OktaAuth(oktaConfig.oidc);
+import { OktaAuth } from '@okta/okta-auth-js';
+import { provideOktaAuth, withOktaConfig } from '@okta/okta-angular';
+
+import { oktaAppConfig } from './okta.config';
+
+
+const oktaAuth = new OktaAuth(oktaAppConfig.oidc);
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(),
-    importProvidersFrom(
-      OktaAuthModule.forRoot({ oktaAuth })
-    )
+    provideOktaAuth(
+      withOktaConfig({ oktaAuth })
+    ),
+    provideHttpClient(withInterceptors([
+      authInterceptor
+    ])),
   ]
 };

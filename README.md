@@ -6,18 +6,19 @@ This example is built with [Angular CLI][].
 
 ## Prerequisites
 
-Before running this sample, you will need the following:
+Sign up for an [Integrator account](https://developer.okta.com/login). Once you have an account, sign in to your [Integrator account](https://developer.okta.com/login). Next, in the Admin Console:
 
-* [The Okta CLI Tool](https://github.com/okta/okta-cli#installation)
-* An Okta Developer Account (create one using `okta register`, or configure an existing one with `okta login`)
-
-## Get the Code
-
-Grab and configure this project using `okta start angular`.
-
-> **NOTE**: If you'd like to use the Okta Sign-In Widget instead of redirect to Okta, use `okta start angular --branch widget`.
-
-Follow the instructions printed to the console.
+1. Go to **Applications > Applications**
+2. Click **Create App Integration**
+3. Select **OIDC - OpenID Connect** as the sign-in method
+4. Select **Single-Page Application** as the application type, then click **Next**
+5. Enter an app integration name (e.g. "My Angular SPA")
+6. In the **Grant type** section, ensure both **Authorization Code** and **Refresh Token** are selected
+7. Configure the redirect URIs:
+- **Sign-in redirect URIs:** `http://localhost:4200/login/callback`
+- **Sign-out redirect URIs:** `http://localhost:4200`
+8. In the **Controlled access** section, select the appropriate access level
+9. Click **Save**
 
 ## Configure Okta resources
 
@@ -27,14 +28,59 @@ Sign into your [Okta Developer Edition account](https://developer.okta.com/login
 
 **Verify Authorization Server**
 
-This repo calls a custom resource server to demonstrate making a protected resource request using an access token. Ensure that your default custom authorization server has an access policy. Add an access policy if it's not there. See [Create access polices](https://help.okta.com/okta_help.htm?type=oie&id=ext-create-access-policies).
+When using a custom authorization server, you need to set up authorization policies. Complete these additional steps:
+
+1. In the Admin Console, go to **Security > API > Authorization Servers**
+2. Select your custom authorization server (`default`)
+3. On the **Access Policies** tab, ensure you have at least one policy:
+    - If no policies exist, click **Add New Access Policy**
+    - Give it a name like "Default Policy"
+    - Set **Assign to** to "All clients"
+    - Click **Create Policy**
+4. For your policy, ensure you have at least one rule:
+    - Click **Add Rule** if no rules exist
+    - Give it a name like "Default Rule"
+    - Set **Grant type** is to "Authorization Code"
+    - Set **User** is to "Any user assigned the app"
+    - Set **Scopes requested** to "Any scopes"
+    - Click **Create Rule**
+
+For more details, see the [Custom Authorization Server documentation](https://developer.okta.com/docs/concepts/auth-servers/#custom-authorization-server).
+
+## Get the Code
+
+```shell
+git clone https://github.com/okta-samples/okta-angular-quickstart.git
+cd okta-angular-quickstart
+npm ci
+```
+
+Update src/app.config.ts with your Okta settings.
+
+```ts
+const oktaAuth = new OktaAuth({
+  clientId: '1234567',
+  issuer: 'https://integrator-1337.okta.com',
+  redirectUri: window.location.origin + '/login/callback',
+  scopes: ['openid', 'profile', 'offline_access']
+});
+```
+
+### Where are my new app's credentials?
+
+Creating an OIDC Single-Page App manually in the Admin Console configures your Okta Org with the application settings. You may also need to configure trusted origins for `http://localhost:8080` in **Security > API > Trusted Origins**.
+
+After creating the app, you can find the configuration details on the app’s **General** tab:
+- **Client ID**: Found in the **Client Credentials** section
+- **Issuer**: Found in the **Issuer URI** field for the authorization server that appears by selecting **Security > API** from the navigation pane.
+
 
 ## Run the Example
 
 To run this application, install its dependencies:
 
 ```
-npm install
+npm ci
 ```
 
 With variables set, start the app server:
@@ -51,6 +97,13 @@ You can sign in with the same account that you created when signing up for your 
 
 > **Note:** If you are currently using the Okta Admin Console, you already have a Single Sign-On (SSO) session for your Org. You will be automatically logged into your application as the same user that is using the Admin Console. You may want to use an incognito tab to test the flow from a blank slate.
 
+Spec files have been updated to demonstrate how to configure the `TestBed` and provide a spy in place of Okta services.
+
+Run tests by
+
+```shell
+npm run test
+```
 ## Integrating The Resource Server
 
 If you were able to successfully login in the previous section you can continue with the resource server example. Please download and run one of these sample applications in another terminal:
@@ -61,7 +114,7 @@ If you were able to successfully login in the previous section you can continue 
 
 Once you have the resource server running (it will run on port 8000) you can visit the `/messages` page within the Angular application to see the authentication flow. The Angular application will use its stored access token to authenticate itself with the resource server, you will see this as the `Authorization: Bearer <access_token>` header on the request if you inspect the network traffic in the browser.
 
-[Angular CLI]: https://cli.angular.io/
-[Okta Angular Library]: https://github.com/okta/okta-oidc-js/tree/master/packages/okta-angular
+[Angular CLI]: https://angular.dev/tools/cli
+[Okta Angular Library]: https://github.com/okta/okta-angular
 [PKCE Flow]: https://developer.okta.com/docs/guides/implement-auth-code-pkce
-[OIDC SPA Setup Instructions]: https://developer.okta.com/docs/guides/sign-into-spa/angular/before-you-begin
+[OIDC SPA Setup Instructions]: https://developer.okta.com/docs/guides/sign-into-spa-redirect/angular/main/

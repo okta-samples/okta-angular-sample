@@ -1,9 +1,7 @@
-import { environment } from '../environments/environment';
-
-export default {
+export const oktaAppConfig = {
   oidc: {
-    clientId: environment.clientID,
-    issuer: environment.issuer,
+    clientId: '{yourClientId}',
+    issuer: '{yourOktaDomain}/oauth2/default',
     redirectUri: 'http://localhost:4200/login/callback',
     scopes: ['openid', 'profile', 'email', 'offline_access'],
     testing: {
