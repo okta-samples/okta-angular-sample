@@ -1,22 +1,40 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
-<div class="ui inverted top fixed menu">
-  <div class="ui container">
-    <a routerLink="/" class="header item">
-      <img class="ui mini image" src="icon_angular_wht.svg" alt="Angular logo">
-      &nbsp;
-      Okta-Angular Sample Project
-    </a>
-    @if ((isAuthenticated$ | async) === false) {
-      <a class="item" (click)="login()">Login</a>
-    } @else {
-      <a id="messages-button" class="item" routerLink="/messages"><i aria-hidden="true" class="mail outline icon"></i>Messages</a>
-      <a id="profile-button" class="item" routerLink="/profile">Profile</a>
-      <a id="logout-button" class="item" (click)="logout()">Logout</a>
+<header class="flex items-center justify-between h-16 px-4 bg-white shadow">
+  <div class="flex items-center gap-6">
+    <img
+      width="90"
+      height="48"
+      alt="Okta logo"
+      ngSrc="okta-logo-180.png"
+      priority
+    />
+    @if (isAuthenticated$ | async) {
+      <nav class="flex items-center gap-4 text-cyan-800">
+        <a class="hover:text-cyan-600 hover:underline" routerLink="/">Home</a>
+        <a class="hover:text-cyan-600 hover:underline" routerLink="/profile">Profile</a>
+        <a class="hover:text-cyan-600 hover:underline" routerLink="/messages">Messages</a>
+        <a class="hover:text-cyan-600 hover:underline" routerLink="/protected">Protected</a>
+      </nav>
     }
   </div>
-</div>
 
-<div class="ui text container" style="margin-top: 7em;">
+  @if (isAuthenticated$ | async) {
+    <button type="button" class="rounded border border-gray-200 px-3 py-1 text-sm font-medium text-gray-600 hover:shadow" (click)="signOut()">Sign out</button>
+  } @else {
+    <button type="button" class="rounded border border-gray-200 px-3 py-1 text-sm font-medium text-gray-600 hover:shadow" (click)="signIn()">Sign in</button>
+  }
+</header>
+
+<main class="flex flex-col items-center max-w-3xl mx-auto px-4 py-8">
   <router-outlet></router-outlet>
-</div>
+</main>
+
+<footer class="mt-10 border-t border-gray-200 bg-white">
+  <div class="mx-auto flex max-w-3xl flex-col items-center justify-between gap-2 px-4 py-5 text-sm text-gray-600 sm:flex-row">
+    <p>Made with 💙 by Okta for Developers.</p>
+    <div class="flex items-center gap-4">
+      <a class="hover:text-cyan-600 hover:underline" target="_blank" rel="noopener" href="https://developer.okta.com">Developer Portal</a>
+      <a class="hover:text-cyan-600 hover:underline" target="_blank" rel="noopener" href="https://devforum.okta.com">DevForum</a>
+      <a class="hover:text-cyan-600 hover:underline" target="_blank" rel="noopener" href="https://developer.okta.com/blog/">Blog</a>
+    </div>
+  </div>
+</footer>

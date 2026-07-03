@@ -1,8 +1,16 @@
 # Okta Angular + Okta Redirect Model Example
 
-This example shows you how to use the [Okta Angular Library][] to login a user to an Angular application.  The login is achieved through the [PKCE Flow][], where the user is redirected to the Okta-Hosted login page.  After the user authenticates they are redirected back to the application with an ID Token and Access Token.
+This example shows you how to use the [Okta Angular Library][] to login a user to an Angular application. The login is achieved through the [PKCE Flow][], where the user is redirected to the Okta-Hosted login page. After the user authenticates they are redirected back to the application with an ID Token and Access Token.
 
-This example is built with [Angular CLI][].
+This example is built with [Angular CLI][] and styled with [Tailwind CSS](https://tailwindcss.com/).
+
+This code sample demonstrates
+* Configuring Okta
+* Sign-in and sign-out
+* Protecting routes
+* Displaying user profile information and ID Token claims
+* Adding an interceptor for adding the Access Token to HTTP calls
+* Calling a resource server for protected data
 
 ## Prerequisites
 
@@ -21,10 +29,6 @@ Sign up for an [Integrator account](https://developer.okta.com/login). Once you 
 9. Click **Save**
 
 ## Configure Okta resources
-
-**Enable Refresh Tokens**
-
-Sign into your [Okta Developer Edition account](https://developer.okta.com/login/) to add a required setting to your Angular Okta app to avoid third-party cookies. Navigate to **Applications** > **Applications** and select "okta-angular-sample" application to edit. Find the **General Settings** and press **Edit**. Enable **Refresh Token** in the **Grant type** section. **Save** your changes.
 
 **Verify Authorization Server**
 
@@ -50,17 +54,17 @@ For more details, see the [Custom Authorization Server documentation](https://de
 ## Get the Code
 
 ```shell
-git clone https://github.com/okta-samples/okta-angular-quickstart.git
-cd okta-angular-quickstart
+git clone https://github.com/okta-samples/okta-angular-sample.git
+cd okta-angular-sample
 npm ci
 ```
 
-Update src/app.config.ts with your Okta settings.
+Update `src/app/app.config.ts` with your Okta settings.
 
 ```ts
 const oktaAuth = new OktaAuth({
-  clientId: '1234567',
-  issuer: 'https://integrator-1337.okta.com',
+  issuer: 'https://{yourOktaDomain}',
+  clientId: '{yourClientID}',
   redirectUri: window.location.origin + '/login/callback',
   scopes: ['openid', 'profile', 'offline_access']
 });
@@ -68,30 +72,23 @@ const oktaAuth = new OktaAuth({
 
 ### Where are my new app's credentials?
 
-Creating an OIDC Single-Page App manually in the Admin Console configures your Okta Org with the application settings. You may also need to configure trusted origins for `http://localhost:8080` in **Security > API > Trusted Origins**.
+Creating an OIDC Single-Page App manually in the Admin Console configures your Okta Org with the application settings. You may also need to configure trusted origins for `http://localhost:4200` in **Security > API > Trusted Origins**.
 
-After creating the app, you can find the configuration details on the app’s **General** tab:
+After creating the app, you can find the configuration details on the app's **General** tab:
 - **Client ID**: Found in the **Client Credentials** section
 - **Issuer**: Found in the **Issuer URI** field for the authorization server that appears by selecting **Security > API** from the navigation pane.
 
-
 ## Run the Example
 
-To run this application, install its dependencies:
+Start the app by running
 
-```
-npm ci
-```
-
-With variables set, start the app server:
-
-```
-ng serve
+```shell
+npm start
 ```
 
 Now navigate to http://localhost:4200 in your browser.
 
-If you see a home page that prompts you to login, then things are working!  Clicking the **Log in** button will redirect you to the Okta hosted sign-in page.
+If you see a home page that prompts you to login, then things are working! Clicking the **Login** button will redirect you to the Okta hosted sign-in page.
 
 You can sign in with the same account that you created when signing up for your Developer Org, or you can use a known username and password from your Okta Directory.
 
@@ -104,7 +101,8 @@ Run tests by
 ```shell
 npm run test
 ```
-## Integrating The Resource Server
+
+## Integrating the Resource Server
 
 If you were able to successfully login in the previous section you can continue with the resource server example. Please download and run one of these sample applications in another terminal:
 
@@ -114,7 +112,15 @@ If you were able to successfully login in the previous section you can continue 
 
 Once you have the resource server running (it will run on port 8000) you can visit the `/messages` page within the Angular application to see the authentication flow. The Angular application will use its stored access token to authenticate itself with the resource server, you will see this as the `Authorization: Bearer <access_token>` header on the request if you inspect the network traffic in the browser.
 
+## Helpful resources
+* [Learn about Authentication, OAuth 2.0, and OpenID Connect](https://developer.okta.com/docs/concepts/)
+* [Angular essentials](https://angular.dev/essentials)
+* [Angular overview](https://angular.io/guide/developer-guide-overview)
+
+## Help
+
+Please visit our [Okta Developer Forums](https://devforum.okta.com/).
+
 [Angular CLI]: https://angular.dev/tools/cli
 [Okta Angular Library]: https://github.com/okta/okta-angular
 [PKCE Flow]: https://developer.okta.com/docs/guides/implement-auth-code-pkce
-[OIDC SPA Setup Instructions]: https://developer.okta.com/docs/guides/sign-into-spa-redirect/angular/main/

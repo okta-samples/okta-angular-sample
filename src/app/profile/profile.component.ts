@@ -1,29 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { OktaAuthStateService } from '@okta/okta-angular';
-import { filter, map } from 'rxjs';
-import { AuthState } from '@okta/okta-auth-js';
-import { AsyncPipe } from '@angular/common';
+import { OKTA_AUTH } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-profile',
-  imports: [AsyncPipe],
-  template: `
-  <div class="profile-card">
-    <div class="shield"></div>
-    <p>Welcome
-      @if(name$ | async; as name) {
-        <span>{{name}} </span>
-      }
-    </p>
-  </div>
-  `,
-  styleUrls: ['./profile.component.css']
+  imports: [],
+  templateUrl: './profile.component.html'
 })
 export class ProfileComponent {
-  private oktaAuthStateService = inject(OktaAuthStateService);
+  private oktaAuth = inject(OKTA_AUTH);
 
-  public name$ = this.oktaAuthStateService.authState$.pipe(
-    filter((authState: AuthState) => !!authState && !!authState.isAuthenticated),
-    map((authState: AuthState) => authState.idToken?.claims.name ?? '')
-  );
+  get claims() {
+    const idToken = this.oktaAuth.authStateManager.getAuthState()?.idToken;
+    return Object.entries(idToken?.claims ?? {}).map(([name, value]) => ({ name, value }));
+  }
 }

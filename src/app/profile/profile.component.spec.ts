@@ -1,21 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileComponent } from './profile.component';
-import { OktaAuthStateService } from '@okta/okta-angular';
-import { of } from 'rxjs';
+import { OKTA_AUTH } from '@okta/okta-angular';
 import { By } from '@angular/platform-browser';
+import { vi } from 'vitest';
 
 describe('ProfileComponent', () => {
   const name = 'Awesome dev';
+  const claims = { name, sub: 'abc123' };
+
   const authSpy = {
-    authState$: of({
-      isAuthenticated: true,
-      idToken: {
-        claims: {
-          name
+    authStateManager: {
+      getAuthState: vi.fn().mockReturnValue({
+        isAuthenticated: true,
+        idToken: {
+          claims
         }
-      }
-    })
+      })
+    }
   };
 
   let component: ProfileComponent;
@@ -27,7 +29,7 @@ describe('ProfileComponent', () => {
         ProfileComponent
       ],
       providers: [
-        { provide: OktaAuthStateService, useValue: authSpy }
+        { provide: OKTA_AUTH, useValue: authSpy }
       ]
     })
     .compileComponents();
@@ -41,8 +43,13 @@ describe('ProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show a welcoming message with username', () => {
-    const message = fixture.debugElement.query(By.css('span')).nativeElement.textContent ?? '';
-    expect(message).toContain(name);
+  it('should render the ID token claims table', () => {
+    const cell = fixture.debugElement.query(By.css('#claim-sub'));
+    expect(cell.nativeElement.textContent).toContain('abc123');
+  });
+
+  it('should render all claims in the table', () => {
+    const nameCell = fixture.debugElement.query(By.css('#claim-name'));
+    expect(nameCell.nativeElement.textContent).toContain(name);
   });
 });

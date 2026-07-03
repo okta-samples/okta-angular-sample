@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
 import { of } from 'rxjs';
 import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
@@ -27,6 +28,7 @@ describe('AppComponent', () => {
         AppComponent
       ],
       providers: [
+        provideRouter([]),
         { provide: OktaAuthStateService, useValue: authStateSpy },
         { provide: OKTA_AUTH, useValue: authSpy }
       ]
@@ -42,14 +44,17 @@ describe('AppComponent', () => {
   it(`should call Okta's login method in the sign in method`, async () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    await app.login();
+    await app.signIn();
     expect(authSpy.signInWithRedirect).toHaveBeenCalled();
   });
 
-  it('should render title', () => {
+  it('shows nav links and sign out button when authenticated', () => {
+    TestBed.overrideProvider(OktaAuthStateService, {
+      useValue: { authState$: of({ isAuthenticated: true }) }
+    });
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.header')?.textContent).toContain('Okta-Angular Sample Project');
+    expect(compiled.querySelector('a[routerLink="/messages"]')).toBeTruthy();
   });
 });
