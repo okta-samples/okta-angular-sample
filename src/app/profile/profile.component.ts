@@ -10,22 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Component, inject, OnInit } from '@angular/core';
-import { IDToken } from '@okta/okta-auth-js';
+import { Component, inject } from '@angular/core';
 import { OKTA_AUTH } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  imports: [],
+  templateUrl: './profile.component.html'
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
   private oktaAuth = inject(OKTA_AUTH);
-  public claims: { name: string; value: unknown }[] = [];
 
-  async ngOnInit() {
-    const idToken: IDToken = await this.oktaAuth.tokenManager.get('idToken') as IDToken;
-    this.claims = Object.entries(idToken.claims).map(entry => ({ name: entry[0], value: entry[1] }));
+  get claims() {
+    const idToken = this.oktaAuth.authStateManager.getAuthState()?.idToken;
+    return Object.entries(idToken?.claims ?? {}).map(([name, value]) => ({ name, value }));
   }
-
 }

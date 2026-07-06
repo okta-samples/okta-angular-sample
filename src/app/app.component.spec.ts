@@ -1,25 +1,34 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
 import { of } from 'rxjs';
 import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
-import { provideRouter } from '@angular/router';
+import { vi } from 'vitest';
 
 describe('AppComponent', () => {
-  const authStateSpy = jasmine.createSpyObj('OktaAuthStateService', [], {
+  const authStateSpy = {
     authState$: of({
       isAuthenticated: false
     })
-  });
+  };
 
-  const authSpy = jasmine.createSpyObj('OktaAuth', ['signInWithRedirect']);
+  const authSpy = {
+    signInWithRedirect: vi.fn().mockResolvedValue(undefined),
+    signOut: vi.fn().mockResolvedValue(undefined)
+  };
 
   beforeEach(async () => {
+    authSpy.signInWithRedirect.mockReset();
+    authSpy.signInWithRedirect.mockResolvedValue(undefined);
+    authSpy.signOut.mockReset();
+    authSpy.signOut.mockResolvedValue(undefined);
+
     await TestBed.configureTestingModule({
       imports: [
         AppComponent
       ],
       providers: [
-        provideRouter([]), // shouldn't be required
+        provideRouter([]),
         { provide: OktaAuthStateService, useValue: authStateSpy },
         { provide: OKTA_AUTH, useValue: authSpy }
       ]
@@ -32,10 +41,20 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', () => {
+  it(`should call Okta's login method in the sign in method`, async () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    await app.signIn();
+    expect(authSpy.signInWithRedirect).toHaveBeenCalled();
+  });
+
+  it('shows nav links and sign out button when authenticated', () => {
+    TestBed.overrideProvider(OktaAuthStateService, {
+      useValue: { authState$: of({ isAuthenticated: true }) }
+    });
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.header')?.textContent).toContain('Okta-Angular Sample Project');
+    expect(compiled.querySelector('a[routerLink="/messages"]')).toBeTruthy();
   });
 });

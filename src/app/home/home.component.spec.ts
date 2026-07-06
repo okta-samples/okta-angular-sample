@@ -2,22 +2,25 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
 import { OKTA_AUTH } from '@okta/okta-angular';
+import { vi } from 'vitest';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  const authSpy = jasmine.createSpyObj('OktaAuth', ['login', 'isAuthenticated', 'getUser']);
+  const authSpy = {
+    isAuthenticated: vi.fn().mockResolvedValue(false),
+    getUser: vi.fn().mockResolvedValue({ name: 'Awesome dev' }),
+    signInWithRedirect: vi.fn().mockResolvedValue(undefined)
+  };
 
-  beforeEach(async() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ HomeComponent ],
       providers: [{ provide: OKTA_AUTH, useValue: authSpy }]
     })
       .compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
   });

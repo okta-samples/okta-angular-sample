@@ -10,34 +10,32 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
-import { filter, map } from 'rxjs';
-
-import { OKTA_AUTH, OktaAuthStateService } from '@okta/okta-angular';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
 import { AuthState } from '@okta/okta-auth-js';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AsyncPipe, RouterLink],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  imports: [AsyncPipe, NgOptimizedImage, RouterLink, RouterOutlet],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
+  private oktaStateService = inject(OktaAuthStateService);
   private oktaAuth = inject(OKTA_AUTH);
-  private authService = inject(OktaAuthStateService);
-  
-  public isAuthenticated$ = this.authService.authState$.pipe(
-    filter((authState: AuthState) => !!authState),
-    map((authState: AuthState) => authState.isAuthenticated ?? false)
+
+  public isAuthenticated$ = this.oktaStateService.authState$.pipe(
+    filter((s: AuthState) => !!s),
+    map((s: AuthState) => s.isAuthenticated ?? false)
   );
 
-  async login(): Promise<void> {
+  public async signIn(): Promise<void> {
     await this.oktaAuth.signInWithRedirect();
   }
 
-  async logout(): Promise<boolean> {
-    return await this.oktaAuth.signOut();
+  public async signOut(): Promise<void> {
+    await this.oktaAuth.signOut();
   }
 }
