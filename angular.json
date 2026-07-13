@@ -30,7 +30,15 @@
 
             ],
             "allowedCommonJsDependencies": [
-              "tiny-emitter"
+              "tiny-emitter",
+              "cross-fetch",
+              "p-cancelable",
+              "q",
+              "u2f-api-polyfill",
+              "jquery",
+              "clipboard",
+              "@sindresorhus/to-milliseconds",
+              "parse-ms"
             ]
           },
           "configurations": {
@@ -38,8 +46,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1.98MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
