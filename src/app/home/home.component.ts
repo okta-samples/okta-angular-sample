@@ -1,16 +1,4 @@
-/*!
- * Copyright (c) 2020-Present, Okta, Inc. and/or its affiliates. All rights reserved.
- * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
- *
- * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *
- * See the License for the specific language governing permissions and limitations under the License.
- */
-
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OKTA_AUTH } from '@okta/okta-angular';
 
@@ -22,8 +10,7 @@ interface ResourceServerExample {
 @Component({
   selector: 'app-home',
   imports: [RouterLink],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
   resourceServerExamples: ResourceServerExample[] = [
@@ -41,16 +28,17 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  isAuthenticated = false;
-  userName: string|undefined = undefined;
-  error: Error|null = null;
+  isAuthenticated = signal(false);
+  userName = signal<string | undefined>(undefined);
+  error = signal<Error | null>(null);
   private oktaAuth = inject(OKTA_AUTH);
 
   async ngOnInit() {
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
-    if (this.isAuthenticated) {
+    const isAuthenticated = await this.oktaAuth.isAuthenticated();
+    this.isAuthenticated.set(isAuthenticated);
+    if (isAuthenticated) {
       const userClaims = await this.oktaAuth.getUser();
-      this.userName = userClaims.name;
+      this.userName.set(userClaims.name);
     }
   }
 }

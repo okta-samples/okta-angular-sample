@@ -1,26 +1,21 @@
-<h1 class="ui header">
-  <i aria-hidden="true" class="drivers license outline icon"></i> My User Profile (ID Token Claims)
-</h1>
-<p>
+<h2 class="mt-6 text-lg font-semibold">ID Token Claims</h2>
+<p class="mt-2">
   Below is the information from your ID Token which was obtained during the
-  <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a>
+  <a class="text-cyan-700 underline" href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a>
   and is now stored in local storage.
 </p>
-<p>
-  This route is protected with the <code>OktaAuthGuard</code> component, which will ensure that this page cannot be accessed until you have authenticated.
-</p>
-<table class="ui table">
+<table class="mt-4 w-full border-collapse text-left">
   <thead>
     <tr>
-      <th>Claim</th>
-      <th>Value</th>
+      <th class="border-b border-gray-200 py-2 pr-4">Claim</th>
+      <th class="border-b border-gray-200 py-2">Value</th>
     </tr>
   </thead>
   <tbody>
     @for (claim of claims; track claim.name) {
       <tr>
-        <td>{{claim.name}}</td>
-        <td id="claim-{{claim.name}}">{{claim.value}}</td>
+        <td class="border-b border-gray-100 py-2 pr-4">{{ claim.name }}</td>
+        <td class="border-b border-gray-100 py-2" id="claim-{{claim.name}}">{{ claim.value }}</td>
       </tr>
     }
   </tbody>

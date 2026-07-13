@@ -1,12 +1,20 @@
-# Okta Angular + Custom Login Example
+# Okta Angular + Okta Redirect Model Example
 
 This example shows you how to use the [Okta Angular Library][] to login a user to an Angular application. The login is achieved with the [Okta Sign In Widget][], which gives you more control to customize the login experience within your app.
 
-This example is built with [Angular CLI][].
+This example is built with [Angular CLI][] and styled with [Tailwind CSS](https://tailwindcss.com/).
+
+This code sample demonstrates
+* Configuring Okta
+* Sign-in and sign-out
+* Protecting routes
+* Displaying user profile information and ID Token claims
+* Adding an interceptor for adding the Access Token to HTTP calls
+* Calling a resource server for protected data
 
 ## Prerequisites
 
-Before you begin, you’ll need an Okta Integrator Free Plan account. To get one, sign up for an [Integrator account](https://developer.okta.com/login). Once you have an account, sign in to your [Integrator account](https://developer.okta.com/login). Next, in the Admin Console:
+Before you begin, you'll need an Okta Integrator Free Plan account. To get one, sign up for an [Integrator account](https://developer.okta.com/login). Once you have an account, sign in to your [Integrator account](https://developer.okta.com/login). Next, in the Admin Console:
 
 1. Go to **Applications > Applications**
 2. Click **Create App Integration**
@@ -45,54 +53,48 @@ For more details, see the [Custom Authorization Server documentation](https://de
 
 ## Get the Code
 
-```bash
+```shell
 git clone https://github.com/okta-samples/okta-angular-sample.git
 cd okta-angular-sample
-git checkout widget
+npm ci
 ```
 
-Update your `.okta.env` file with the values from your application's configuration:
+Update `src/app/app.config.ts` with your Okta settings.
 
-```text
-ISSUER=https://integrator-1337.okta.com
-CLIENT_ID=0oab8eb55Kb9jdMIr5d6
+```ts
+const oktaAuth = new OktaAuth({
+  issuer: 'https://{yourOktaDomain}',
+  clientId: '{yourClientID}',
+  redirectUri: window.location.origin + '/login/callback',
+  scopes: ['openid', 'profile', 'offline_access']
+});
 ```
 
 ### Where are my new app's credentials?
 
 Creating an OIDC Single-Page App manually in the Admin Console configures your Okta Org with the application settings. You may also need to configure trusted origins for `http://localhost:4200` in **Security > API > Trusted Origins**.
 
-After creating the app, you can find the configuration details on the app’s **General** tab:
+After creating the app, you can find the configuration details on the app's **General** tab:
 - **Client ID**: Found in the **Client Credentials** section
 - **Issuer**: Found in the **Issuer URI** field for the authorization server that appears by selecting **Security > API** from the navigation pane.
 
-## Update Okta Settings
-
-You'll need to make changes in Okta to support refresh tokens, enable interaction code grant, and add a custom authorization server by following the instructions in [Create an Okta app integration](https://developer.okta.com/docs/guides/sign-in-to-spa-embedded-widget/angular/main/#create-an-okta-app-integration) docs.
-
 ## Run the Example
 
-To run this application, install its dependencies:
+Start the app by running
 
-```
-npm install
-```
-
-With variables set, start the app server:
-
-```
-ng serve
+```shell
+npm start
 ```
 
 Now navigate to http://localhost:4200 in your browser.
 
-If you see a home page that prompts you to login, then things are working!  Clicking the **Log in** button will render a custom login page component that uses the Okta Sign-In Widget to perform authentication.
+If you see a home page that prompts you to login, then things are working! Clicking the **Login** button will redirect you to the Okta hosted sign-in page.
 
 You can sign in with the same account that you created when signing up for your Developer Org, or you can use a known username and password from your Okta Directory.
 
 > **Note:** If you are currently using the Okta Admin Console, you already have a Single Sign-On (SSO) session for your Org. You will be automatically logged into your application as the same user that is using the Admin Console. You may want to use an incognito tab to test the flow from a blank slate.
 
-## Integrating The Resource Server
+## Integrating the Resource Server
 
 If you were able to successfully login in the previous section you can continue with the resource server example. Please download and run one of these sample applications in another terminal:
 
@@ -102,8 +104,15 @@ If you were able to successfully login in the previous section you can continue 
 
 Once you have the resource server running (it will run on port 8000) you can visit the `/messages` page within the Angular application to see the authentication flow. The Angular application will use its stored access token to authenticate itself with the resource server, you will see this as the `Authorization: Bearer <access_token>` header on the request if you inspect the network traffic in the browser.
 
-[Angular CLI]: https://cli.angular.io/
-[Okta Angular Library]: https://github.com/okta/okta-oidc-js/tree/master/packages/okta-angular
+## Helpful resources
+* [Learn about Authentication, OAuth 2.0, and OpenID Connect](https://developer.okta.com/docs/concepts/)
+* [Angular essentials](https://angular.dev/essentials)
+* [Angular overview](https://angular.io/guide/developer-guide-overview)
+
+## Help
+
+Please visit our [Okta Developer Forums](https://devforum.okta.com/).
+
+[Angular CLI]: https://angular.dev/tools/cli
+[Okta Angular Library]: https://github.com/okta/okta-angular
 [PKCE Flow]: https://developer.okta.com/docs/guides/implement-auth-code-pkce
-[OIDC SPA Setup Instructions]: https://developer.okta.com/docs/guides/sign-into-spa/angular/before-you-begin
-[Okta Sign In Widget]: https://github.com/okta/okta-signin-widget

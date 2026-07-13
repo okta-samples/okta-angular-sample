@@ -9,13 +9,13 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+
 import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import sampleConfig from '../okta.config';
-import { OKTA_AUTH } from '@okta/okta-angular';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+
+const MESSAGES_URL = 'http://localhost:8000/api/messages';
 
 interface Message {
   date: string;
@@ -26,21 +26,14 @@ interface Message {
 @Component({
   selector: 'app-messages',
   imports: [AsyncPipe],
-  templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.css']
+  templateUrl: './messages.component.html'
 })
 export class MessagesComponent {
-  private oktaAuth = inject(OKTA_AUTH);
   private http = inject(HttpClient);
-  failed: boolean|null = null;
-  messages$: Observable<Message[]> = this.http.get<{messages: Message[]}>(sampleConfig.resourceServer.messagesUrl, {
-    headers: {
-      Authorization: `Bearer  ${this.oktaAuth.getAccessToken()}`,
-    }
-  })
+  readonly messages$: Observable<Message[] | null> = this.http.get<{ messages: Message[] }>(MESSAGES_URL)
   .pipe(
     map(res => res.messages || []),
-    map(res => res.map(({date, text}, index: number) => {
+    map(res => res.map(({ date, text }, index: number) => {
       const d = new Date(date);
       return {
         date: `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`,
@@ -48,9 +41,6 @@ export class MessagesComponent {
         index
       };
     })),
-    catchError(err => {
-      console.error(err);
-      return throwError(() => err);
-    })
+    catchError(() => of(null))
   );
 }

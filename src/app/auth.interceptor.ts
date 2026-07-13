@@ -10,11 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { OKTA_AUTH } from '@okta/okta-angular';
 
-export const environment = {
-  clientID: '{yourClientID}',
-  issuer: '{yourOktaDomain}'
+export const authInterceptor: HttpInterceptorFn = (req, next, oktaAuth = inject(OKTA_AUTH)) => {
+  let request = req;
+  const allowedOrigins = ['http://localhost'];
+  const accessToken = oktaAuth.getAccessToken();
+  if(accessToken && !!allowedOrigins.find(origin => req.url.includes(origin))) {
+    request = req.clone({ setHeaders: { 'Authorization': `Bearer ${accessToken}` } });
+  }
+
+  return next(request);
 };

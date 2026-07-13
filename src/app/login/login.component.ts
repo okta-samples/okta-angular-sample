@@ -20,8 +20,7 @@ const DEFAULT_ORIGINAL_URI = window.location.origin;
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
   public oktaAuth = inject(OKTA_AUTH);

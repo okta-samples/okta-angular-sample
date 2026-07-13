@@ -11,3 +11,14 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      angular:
+        patterns:
+          - '@angular/*'
+          - 'typescript'
+      angular-eslint:
+        patterns:
+          - '@angular-eslint/*'
+      typescript-eslint:
+        patterns:
+          - '@typescript-eslint/*'
